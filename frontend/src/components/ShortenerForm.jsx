@@ -1,9 +1,9 @@
-
 import React, { useState } from "react";
 import { Button, TextField, Box, Typography } from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
 import URLList from "./URLList";
 import { logEvent } from "../utils/logger";
+import { Link } from "react-router-dom";
 
 const ShortenerForm = () => {
   const [urls, setUrls] = useState([{ long: "", validity: 30, shortcode: "" }]);
@@ -36,6 +36,7 @@ const ShortenerForm = () => {
   return (
     <Box p={4}>
       <Typography variant="h4" gutterBottom>React URL Shortener</Typography>
+
       {urls.map((url, i) => (
         <Box key={i} mb={2}>
           <TextField
@@ -59,17 +60,30 @@ const ShortenerForm = () => {
           />
         </Box>
       ))}
-      <Button
-        variant="contained"
-        onClick={handleShorten}
-        disabled={urls.length === 0}
-      >
-        Shorten URLs
-      </Button>
+
+      <Box display="flex" gap={2} alignItems="center" mt={2}>
+        <Button
+          variant="contained"
+          onClick={handleShorten}
+          disabled={urls.length === 0}
+        >
+          Shorten URLs
+        </Button>
+
+        {/* View Stats Button with styling */}
+        <Button
+          variant="outlined"
+          component={Link}
+          to="/stats"
+        >
+          View Stats
+        </Button>
+      </Box>
+
+      {/* List of shortened URLs */}
       <URLList data={shortenedUrls} />
     </Box>
   );
 };
 
 export default ShortenerForm;
-
